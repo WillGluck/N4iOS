@@ -1,0 +1,30 @@
+## Gerado pelo Build
+build/
+DerivedData
+
+## Configurações diversas
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+
+## Outros
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+## Específo Obj-C/Swift
+*.hmap
+*.ipa
+
+#Mac...
+.DS_Store
+
+#Pods
+Pods/
