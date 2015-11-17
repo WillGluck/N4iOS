@@ -2,12 +2,13 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IcQ-hf-mtv">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="N4" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MapViewController" customModule="N4" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -27,8 +28,8 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLs-jp-EvB">
-                                        <rect key="frame" x="215" y="60" width="140" height="30"/>
-                                        <state key="normal" title="Choose A Old Travel"/>
+                                        <rect key="frame" x="233" y="60" width="122" height="30"/>
+                                        <state key="normal" title="See An Old Travel"/>
                                         <connections>
                                             <segue destination="gjK-yx-skE" kind="show" id="tNY-oJ-Zfn"/>
                                         </connections>
@@ -78,7 +79,33 @@
                     <view key="view" contentMode="scaleToFill" id="uBQ-um-LCL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Travel Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqZ-wP-Jx5">
+                                <rect key="frame" x="36" y="314" width="303" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="MW0-Ra-kqK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JHP-xm-1hP">
+                                <rect key="frame" x="36" y="384" width="303" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7zq-sv-c1s"/>
+                                </constraints>
+                                <state key="normal" title="Create"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="JHP-xm-1hP" firstAttribute="top" secondItem="jqZ-wP-Jx5" secondAttribute="bottom" constant="30" id="5JI-YQ-fQw"/>
+                            <constraint firstItem="jqZ-wP-Jx5" firstAttribute="centerY" secondItem="uBQ-um-LCL" secondAttribute="centerY" id="7mI-Ow-BCa"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jqZ-wP-Jx5" secondAttribute="trailing" constant="20" id="W1d-Iv-Hnc"/>
+                            <constraint firstItem="jqZ-wP-Jx5" firstAttribute="leading" secondItem="uBQ-um-LCL" secondAttribute="leadingMargin" constant="20" id="cwy-CC-dzo"/>
+                            <constraint firstItem="JHP-xm-1hP" firstAttribute="leading" secondItem="uBQ-um-LCL" secondAttribute="leadingMargin" constant="20" id="gKR-69-Q0t"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="JHP-xm-1hP" secondAttribute="trailing" constant="20" id="mCu-NA-Oyl"/>
+                            <constraint firstItem="jqZ-wP-Jx5" firstAttribute="centerX" secondItem="uBQ-um-LCL" secondAttribute="centerX" id="oA1-WH-nlK"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qh4-zO-maL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -89,17 +116,25 @@
         <scene sceneID="2Vp-Ac-4Sg">
             <objects>
                 <tableViewController id="gjK-yx-skE" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ekr-xL-TgS">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" id="ekr-xL-TgS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="8yY-gV-Tdl">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="8yY-gV-Tdl">
+                                <rect key="frame" x="0.0" y="92" width="375" height="84"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8yY-gV-Tdl" id="HLl-iv-WMR">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Travel Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sP-EJ-ygA">
+                                            <rect key="frame" x="29" y="31" width="96" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
