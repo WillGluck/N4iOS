@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IcQ-hf-mtv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IcQ-hf-mtv">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -22,6 +22,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-wt-XWp">
                                         <rect key="frame" x="20" y="60" width="140" height="30"/>
+                                        <animations/>
                                         <state key="normal" title="Create A New Travel"/>
                                         <connections>
                                             <segue destination="qpI-AR-8VC" kind="show" id="agO-aY-DQL"/>
@@ -29,12 +30,14 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLs-jp-EvB">
                                         <rect key="frame" x="233" y="60" width="122" height="30"/>
+                                        <animations/>
                                         <state key="normal" title="See An Old Travel"/>
                                         <connections>
                                             <segue destination="gjK-yx-skE" kind="show" id="tNY-oJ-Zfn"/>
                                         </connections>
                                     </button>
                                 </subviews>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="NmP-wt-XWp" firstAttribute="leading" secondItem="uOI-VZ-a9H" secondAttribute="leading" constant="20" id="55r-ou-wXy"/>
@@ -47,6 +50,7 @@
                             </view>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Z0U-qT-1g6">
                                 <rect key="frame" x="0.0" y="64" width="375" height="453"/>
+                                <animations/>
                             </mapView>
                         </subviews>
                         <animations/>
@@ -68,10 +72,10 @@
             </objects>
             <point key="canvasLocation" x="1106.5" y="353.5"/>
         </scene>
-        <!--View Controller-->
+        <!--New Travel View Controller-->
         <scene sceneID="jZl-jO-pzG">
             <objects>
-                <viewController id="qpI-AR-8VC" sceneMemberID="viewController">
+                <viewController id="qpI-AR-8VC" customClass="NewTravelViewController" customModule="N4" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="JWK-a1-Fd0"/>
                         <viewControllerLayoutGuide type="bottom" id="I1d-8q-6EJ"/>
@@ -82,6 +86,7 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Travel Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jqZ-wP-Jx5">
                                 <rect key="frame" x="36" y="314" width="303" height="40"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="MW0-Ra-kqK"/>
                                 </constraints>
@@ -90,12 +95,14 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JHP-xm-1hP">
                                 <rect key="frame" x="36" y="384" width="303" height="40"/>
+                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="7zq-sv-c1s"/>
                                 </constraints>
                                 <state key="normal" title="Create"/>
                             </button>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JHP-xm-1hP" firstAttribute="top" secondItem="jqZ-wP-Jx5" secondAttribute="bottom" constant="30" id="5JI-YQ-fQw"/>
@@ -107,35 +114,42 @@
                             <constraint firstItem="jqZ-wP-Jx5" firstAttribute="centerX" secondItem="uBQ-um-LCL" secondAttribute="centerX" id="oA1-WH-nlK"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="travelName" destination="jqZ-wP-Jx5" id="0hh-hb-VAi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qh4-zO-maL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1668.5" y="-50.5"/>
+            <point key="canvasLocation" x="1668.5" y="-42.5"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Travels Table View Controller-->
         <scene sceneID="2Vp-Ac-4Sg">
             <objects>
-                <tableViewController id="gjK-yx-skE" sceneMemberID="viewController">
+                <tableViewController id="gjK-yx-skE" customClass="TravelsTableViewController" customModule="N4" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" id="ekr-xL-TgS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="8yY-gV-Tdl">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="84" id="8yY-gV-Tdl" customClass="TravelTableViewCell" customModule="N4" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="375" height="84"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8yY-gV-Tdl" id="HLl-iv-WMR">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="83"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="83.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Travel Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sP-EJ-ygA">
                                             <rect key="frame" x="29" y="31" width="96" height="21"/>
+                                            <animations/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <animations/>
                                 </tableViewCellContentView>
+                                <animations/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -143,6 +157,9 @@
                             <outlet property="delegate" destination="gjK-yx-skE" id="4cM-aj-6o0"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="travelName" destination="8yY-gV-Tdl" id="b7S-yT-Dmi"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OTl-yb-eQW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
