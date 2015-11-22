@@ -101,17 +101,32 @@
                                 </constraints>
                                 <state key="normal" title="Create"/>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vor-65-8L5">
+                                <rect key="frame" x="36" y="258" width="51" height="31"/>
+                                <animations/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Secure (Will encrypt the data)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AgR-dF-IQ9">
+                                <rect key="frame" x="110" y="263.5" width="227.5" height="20.5"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="JHP-xm-1hP" firstAttribute="top" secondItem="jqZ-wP-Jx5" secondAttribute="bottom" constant="30" id="5JI-YQ-fQw"/>
                             <constraint firstItem="jqZ-wP-Jx5" firstAttribute="centerY" secondItem="uBQ-um-LCL" secondAttribute="centerY" id="7mI-Ow-BCa"/>
+                            <constraint firstItem="AgR-dF-IQ9" firstAttribute="leading" secondItem="Vor-65-8L5" secondAttribute="trailing" constant="25" id="CEF-Gd-DLc"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jqZ-wP-Jx5" secondAttribute="trailing" constant="20" id="W1d-Iv-Hnc"/>
+                            <constraint firstItem="jqZ-wP-Jx5" firstAttribute="top" secondItem="Vor-65-8L5" secondAttribute="bottom" constant="25" id="azG-sJ-6hq"/>
                             <constraint firstItem="jqZ-wP-Jx5" firstAttribute="leading" secondItem="uBQ-um-LCL" secondAttribute="leadingMargin" constant="20" id="cwy-CC-dzo"/>
                             <constraint firstItem="JHP-xm-1hP" firstAttribute="leading" secondItem="uBQ-um-LCL" secondAttribute="leadingMargin" constant="20" id="gKR-69-Q0t"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JHP-xm-1hP" secondAttribute="trailing" constant="20" id="mCu-NA-Oyl"/>
                             <constraint firstItem="jqZ-wP-Jx5" firstAttribute="centerX" secondItem="uBQ-um-LCL" secondAttribute="centerX" id="oA1-WH-nlK"/>
+                            <constraint firstItem="jqZ-wP-Jx5" firstAttribute="leading" secondItem="Vor-65-8L5" secondAttribute="leading" id="piF-BG-FIf"/>
+                            <constraint firstItem="AgR-dF-IQ9" firstAttribute="centerY" secondItem="Vor-65-8L5" secondAttribute="centerY" id="zLQ-nb-hfS"/>
                         </constraints>
                     </view>
                     <connections>
@@ -150,16 +165,16 @@
                                     <animations/>
                                 </tableViewCellContentView>
                                 <animations/>
+                                <connections>
+                                    <outlet property="travelName" destination="2sP-EJ-ygA" id="byd-7a-uw9"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="gjK-yx-skE" id="wq4-gU-4Sv"/>
+                            <outlet property="dataSource" destination="gjK-yx-skE" id="99Y-zG-Qre"/>
                             <outlet property="delegate" destination="gjK-yx-skE" id="4cM-aj-6o0"/>
                         </connections>
                     </tableView>
-                    <connections>
-                        <outlet property="travelName" destination="8yY-gV-Tdl" id="b7S-yT-Dmi"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OTl-yb-eQW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,8 +9,6 @@
 import UIKit
 
 class TravelsTableViewController: UITableViewController {
-
-    @IBOutlet weak var travelName: TravelTableViewCell!
     
     override func viewDidLoad() {
         super.viewDidLoad()

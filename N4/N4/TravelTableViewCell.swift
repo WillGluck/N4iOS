@@ -10,6 +10,8 @@ import UIKit
 
 class TravelTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var travelName: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
