@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import CoreData
 
 class TravelsTableViewController: UITableViewController {
+    
+    let travels = [NSManagedObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +21,8 @@ class TravelsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,15 +42,13 @@ class TravelsTableViewController: UITableViewController {
         return 0
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("travel", forIndexPath: indexPath) as! TravelTableViewCell
         // Configure the cell...
-
+        let travel = self.travels[indexPath.length]
+        cell.travelName.text = travel.valueForKey("name") as? String
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

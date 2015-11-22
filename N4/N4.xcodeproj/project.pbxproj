@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E062AACD1BF28279002B9F21 /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = E062AACC1BF28279002B9F21 /* Process.swift */; settings = {ASSET_TAGS = (); }; };
 		E0AFDDE11C0259DD00F75EBA /* Cripto.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AFDDE01C0259DD00F75EBA /* Cripto.swift */; settings = {ASSET_TAGS = (); }; };
+		E0AFDDE31C02617500F75EBA /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AFDDE21C02617500F75EBA /* CoreData.swift */; settings = {ASSET_TAGS = (); }; };
+		E0AFDDE51C0264F300F75EBA /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AFDDE41C0264F300F75EBA /* MapKit.framework */; };
+		E0AFDDE81C0268B700F75EBA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AFDDE71C0268B700F75EBA /* CoreData.framework */; };
 		E0C17C2F1BFD07AC00FBB837 /* NewTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		E0C17C311BFD07DB00FBB837 /* TravelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C301BFD07DB00FBB837 /* TravelsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		E0C17C331BFD09AF00FBB837 /* TravelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C321BFD09AF00FBB837 /* TravelTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -40,9 +42,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E062AACC1BF28279002B9F21 /* Process.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
 		E0AFDDD91C0258D000F75EBA /* N4-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "N4-Bridging-Header.h"; sourceTree = "<group>"; };
 		E0AFDDE01C0259DD00F75EBA /* Cripto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cripto.swift; sourceTree = "<group>"; };
+		E0AFDDE21C02617500F75EBA /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
+		E0AFDDE41C0264F300F75EBA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		E0AFDDE71C0268B700F75EBA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTravelViewController.swift; sourceTree = "<group>"; };
 		E0C17C301BFD07DB00FBB837 /* TravelsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelsTableViewController.swift; sourceTree = "<group>"; };
 		E0C17C321BFD09AF00FBB837 /* TravelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelTableViewCell.swift; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0AFDDE81C0268B700F75EBA /* CoreData.framework in Frameworks */,
+				E0AFDDE51C0264F300F75EBA /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,12 +93,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E0AFDDD61C0253F400F75EBA /* Cripto */ = {
+		E0AFDDD61C0253F400F75EBA /* Core */ = {
 			isa = PBXGroup;
 			children = (
 				E0AFDDE01C0259DD00F75EBA /* Cripto.swift */,
+				E0AFDDE21C02617500F75EBA /* CoreData.swift */,
 			);
-			name = Cripto;
+			name = Core;
+			sourceTree = "<group>";
+		};
+		E0AFDDE61C0264FE00F75EBA /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				E0AFDDE41C0264F300F75EBA /* MapKit.framework */,
+			);
+			name = Framework;
 			sourceTree = "<group>";
 		};
 		E0C17C261BFD06DA00FBB837 /* Supporting Files */ = {
@@ -109,6 +124,8 @@
 		E0E83B051BF103E1009B40FB = {
 			isa = PBXGroup;
 			children = (
+				E0AFDDE71C0268B700F75EBA /* CoreData.framework */,
+				E0AFDDE61C0264FE00F75EBA /* Framework */,
 				E0E83B101BF103E1009B40FB /* N4 */,
 				E0E83B281BF103E1009B40FB /* N4Tests */,
 				E0E83B331BF103E1009B40FB /* N4UITests */,
@@ -129,14 +146,13 @@
 		E0E83B101BF103E1009B40FB /* N4 */ = {
 			isa = PBXGroup;
 			children = (
-				E0AFDDD61C0253F400F75EBA /* Cripto */,
+				E0AFDDD61C0253F400F75EBA /* Core */,
 				E0C17C261BFD06DA00FBB837 /* Supporting Files */,
 				E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */,
 				E0E83B111BF103E1009B40FB /* AppDelegate.swift */,
 				E0E83B131BF103E1009B40FB /* MapViewController.swift */,
 				E0C17C301BFD07DB00FBB837 /* TravelsTableViewController.swift */,
 				E0C17C321BFD09AF00FBB837 /* TravelTableViewCell.swift */,
-				E062AACC1BF28279002B9F21 /* Process.swift */,
 				E0E83B151BF103E1009B40FB /* Main.storyboard */,
 				E0E83B181BF103E1009B40FB /* N4.xcdatamodeld */,
 			);
@@ -296,8 +312,8 @@
 				E0E83B141BF103E1009B40FB /* MapViewController.swift in Sources */,
 				E0C17C331BFD09AF00FBB837 /* TravelTableViewCell.swift in Sources */,
 				E0AFDDE11C0259DD00F75EBA /* Cripto.swift in Sources */,
+				E0AFDDE31C02617500F75EBA /* CoreData.swift in Sources */,
 				E0E83B121BF103E1009B40FB /* AppDelegate.swift in Sources */,
-				E062AACD1BF28279002B9F21 /* Process.swift in Sources */,
 				E0C17C311BFD07DB00FBB837 /* TravelsTableViewController.swift in Sources */,
 				E0C17C2F1BFD07AC00FBB837 /* NewTravelViewController.swift in Sources */,
 			);
