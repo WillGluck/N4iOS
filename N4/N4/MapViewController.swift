@@ -101,7 +101,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 let travel = try managedContext.executeFetchRequest(travelFetchRequest)
                 
                 let fetchRequest = NSFetchRequest(entityName: "Location")
-                let locationPredicate = NSPredicate(format: "travel", argumentArray: travel)
+                let locationPredicate = NSPredicate(format: "travel = %@", argumentArray: travel)
                 fetchRequest.predicate = locationPredicate
                 
                 let locationsResult = try managedContext.executeFetchRequest(fetchRequest)

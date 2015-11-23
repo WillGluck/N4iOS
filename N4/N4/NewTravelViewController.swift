@@ -31,6 +31,7 @@ class NewTravelViewController: UIViewController {
             if let travelName = self.travelName.text {
                 self.createTravel(travelName)
                 self.prepareMapView(segue.destinationViewController as! MapViewController)
+                //self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }
