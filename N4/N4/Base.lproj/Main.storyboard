@@ -180,7 +180,7 @@
                                 <animations/>
                                 <connections>
                                     <outlet property="travelName" destination="2sP-EJ-ygA" id="byd-7a-uw9"/>
-                                    <segue destination="eE5-Mm-FZL" kind="unwind" trigger="accessoryAction" unwindAction="travelsReturns:towardsViewController:" id="pzi-1R-0Q6"/>
+                                    <segue destination="eE5-Mm-FZL" kind="unwind" identifier="travelsUnwindSegue" trigger="accessoryAction" unwindAction="travelsReturns:towardsViewController:" id="9H2-cs-Dwe"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

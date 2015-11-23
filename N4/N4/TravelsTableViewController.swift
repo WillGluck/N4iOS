@@ -11,7 +11,8 @@ import CoreData
 
 class TravelsTableViewController: UITableViewController {
     
-    let travels = [NSManagedObject]()
+    var travels = [NSManagedObject]()
+    var selectedTravel:NSManagedObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,9 +22,20 @@ class TravelsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.loadTravels()
+    }
+    
+    override func viewDidAppear(animated:Bool) {
+        super.viewDidAppear(animated)
+
+    }
+    
+    func loadTravels() {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
         
-        
-        
+        let fetchRequest = NSFetchRequest(entityName: "Travel")
+        self.travels = try! managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,20 +47,24 @@ class TravelsTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return self.travels.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("travel", forIndexPath: indexPath) as! TravelTableViewCell
         // Configure the cell...
-        let travel = self.travels[indexPath.length]
+        let travel = self.travels[indexPath.row]
         cell.travelName.text = travel.valueForKey("name") as? String
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.selectedTravel = travels[indexPath.row]
     }
 
     /*
@@ -91,8 +107,16 @@ class TravelsTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "travelsUnwindSegue" {
+            self.prepareMapView(segue.destinationViewController as! MapViewController)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    func prepareMapView(mapViewController:MapViewController) {
+        mapViewController.travelName = self.selectedTravel!.valueForKey("name") as? String
+        mapViewController.isEnded = self.selectedTravel!.valueForKey("ended") as! Bool
+        mapViewController.isSecure = self.selectedTravel!.valueForKey("secure") as! Bool
     }
 
 
