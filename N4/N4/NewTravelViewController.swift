@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class NewTravelViewController: UIViewController {
 
-    @IBOutlet weak var travelName: UITextField!
-    @IBOutlet weak var secure: UILabel!
+    @IBOutlet weak var travelName: UITextField!    
+    @IBOutlet weak var secure: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,15 @@ class NewTravelViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "mapUnwindSegue" {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let managedContext = appDelegate.managedObjectContext
+            
+            let travel =  NSEntityDescription.insertNewObjectForEntityForName("Travel", inManagedObjectContext: managedContext)
+            travel.setValue(self.travelName.text, forKey: "name")
+            travel.setValue(self.secure.on, forKey: "secure")
+            
+            try! managedContext.save()            
+        }
     }
 }

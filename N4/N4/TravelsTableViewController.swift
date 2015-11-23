@@ -23,6 +23,7 @@ class TravelsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         
+        
     }
 
     override func didReceiveMemoryWarning() {

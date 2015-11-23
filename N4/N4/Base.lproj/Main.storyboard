@@ -140,7 +140,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="secure" destination="AgR-dF-IQ9" id="71x-gY-njf"/>
+                        <outlet property="secure" destination="Vor-65-8L5" id="gDU-TV-roP"/>
                         <outlet property="travelName" destination="jqZ-wP-Jx5" id="0hh-hb-VAi"/>
                     </connections>
                 </viewController>
