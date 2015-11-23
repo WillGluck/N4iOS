@@ -28,14 +28,27 @@ class NewTravelViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "mapUnwindSegue" {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-            let managedContext = appDelegate.managedObjectContext
-            
-            let travel =  NSEntityDescription.insertNewObjectForEntityForName("Travel", inManagedObjectContext: managedContext)
-            travel.setValue(self.travelName.text, forKey: "name")
-            travel.setValue(self.secure.on, forKey: "secure")
-            
-            try! managedContext.save()            
+            if let travelName = self.travelName.text {
+                self.createTravel(travelName)
+                self.prepareMapView(segue.destinationViewController as! MapViewController)
+            }
         }
+    }
+    
+    func prepareMapView(mapViewController:MapViewController) {
+        mapViewController.travelName = self.travelName.text
+        mapViewController.isSecure = self.secure.on
+        mapViewController.isEnded = false
+    }
+    
+    func createTravel(travelName:String) {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext = appDelegate.managedObjectContext
+        
+        let travel =  NSEntityDescription.insertNewObjectForEntityForName("Travel", inManagedObjectContext: managedContext)
+        travel.setValue(travelName, forKey: "name")
+        travel.setValue(self.secure.on, forKey: "secure")
+        
+        try! managedContext.save()
     }
 }
