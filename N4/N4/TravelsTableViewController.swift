@@ -22,6 +22,7 @@ class TravelsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        //self.tableView.registerClass(TravelTableViewCell.self, forCellReuseIdentifier: "TravelTableViewCell")
         self.loadTravels()
     }
     
@@ -63,9 +64,9 @@ class TravelsTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.selectedTravel = travels[indexPath.row]
-    }
+//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+//        self.selectedTravel = travels[indexPath.row]
+//    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -107,16 +108,47 @@ class TravelsTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        guard let tableView = sender as? UITableViewCell else {
+            return
+        }
+        guard let index = self.tableView.indexPathForCell(tableView) else {
+            return
+        }
+
+        self.selectedTravel = self.travels[index.row]
+        
         if segue.identifier == "travelsUnwindSegue" {
-            self.prepareMapView(segue.destinationViewController as! MapViewController)
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.prepareMapView(segue.destinationViewController as? MapViewController)
         }
     }
     
-    func prepareMapView(mapViewController:MapViewController) {
-        mapViewController.travelName = self.selectedTravel!.valueForKey("name") as? String
-        mapViewController.isEnded = self.selectedTravel!.valueForKey("ended") as! Bool
-        mapViewController.isSecure = self.selectedTravel!.valueForKey("secure") as! Bool
+//    func prepareForSegue(segue: UIStoryboardSegue, sender: UITableViewCell?) {
+//        
+//        guard let tableView = sender else {
+//            return
+//        }
+//        guard let index = self.tableView.indexPathForCell(tableView) else {
+//            return
+//        }
+//        
+//        self.selectedTravel = self.travels[index.row]
+//        if segue.identifier == "travelsUnwindSegue" {
+//            self.prepareMapView(segue.destinationViewController as! MapViewController)
+//            self.dismissViewControllerAnimated(true, completion: nil)
+//        }
+//        
+//        self.prepareMapView(segue.destinationViewController as! MapViewController)
+//
+//    }
+    
+    func prepareMapView(mapViewController:MapViewController?) {
+        if let mapView = mapViewController {
+            mapView.travelName = self.selectedTravel!.valueForKey("name") as? String
+            mapView.isEnded = self.selectedTravel!.valueForKey("finished") as! Bool
+            mapView.isSecure = self.selectedTravel!.valueForKey("secure") as! Bool
+        }
+
     }
 
 
