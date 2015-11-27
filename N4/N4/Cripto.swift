@@ -56,7 +56,7 @@ class AES128Encryptor {
         let iv = try self.randomDataOfLength(algorithmIVSize)
         
         NSUserDefaults.standardUserDefaults().setValue(iv, forKey:IV_KEY)
-        NSUserDefaults.standardUserDefaults().setValue(self.AESKeyFromPassword(password, salt: salt), forKey:IV_KEY)
+        NSUserDefaults.standardUserDefaults().setValue(self.AESKeyFromPassword(password, salt: salt), forKey:KEY_KEY)
         
     }
     

@@ -37,9 +37,9 @@ class NewTravelViewController: UIViewController {
     }
     
     func prepareMapView(mapViewController:MapViewController) {
-        mapViewController.travelName = self.travelName.text
-        mapViewController.isSecure = self.secure.on
-        mapViewController.isEnded = false
+        if let travelName = self.travelName.text {
+            mapViewController.loadTravel(travelName)
+        }
     }
     
     func createTravel(travelName:String) {
@@ -49,6 +49,7 @@ class NewTravelViewController: UIViewController {
         let travel =  NSEntityDescription.insertNewObjectForEntityForName("Travel", inManagedObjectContext: managedContext)
         travel.setValue(travelName, forKey: "name")
         travel.setValue(self.secure.on, forKey: "secure")
+        travel.setValue(false, forKey: "finished")
         
         try! managedContext.save()
     }

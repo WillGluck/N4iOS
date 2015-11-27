@@ -144,9 +144,7 @@ class TravelsTableViewController: UITableViewController {
     
     func prepareMapView(mapViewController:MapViewController?) {
         if let mapView = mapViewController {
-            mapView.travelName = self.selectedTravel!.valueForKey("name") as? String
-            mapView.isEnded = self.selectedTravel!.valueForKey("finished") as! Bool
-            mapView.isSecure = self.selectedTravel!.valueForKey("secure") as! Bool
+            mapView.loadTravel(self.selectedTravel!.valueForKey("name") as! String)
         }
 
     }

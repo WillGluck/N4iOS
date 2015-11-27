@@ -13,11 +13,10 @@ import CoreLocation
 
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
-    var travelName:String?
-    var isSecure:Bool = false
-    var isEnded:Bool = true
     var managedContext:NSManagedObjectContext!
+    var travel:NSManagedObject?
     
+    @IBOutlet weak var finishTravelButton: UIButton!
     lazy var locationManager:CLLocationManager! = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -30,35 +29,42 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        self.managedContext = appDelegate.managedObjectContext
         self.loadMap()
     }
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         locationManager.startUpdatingLocation()
-
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        self.managedContext = appDelegate.managedObjectContext
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    @IBAction func finishTravel(sender: UIButton) {
+        travel!.setValue(true, forKey: "finished")
+        try! managedContext.save()
+        sender.enabled = false
+    }
+    
+    func loadTravel(travelName:String) {
+        let fetchRequest = NSFetchRequest(entityName: "Travel")
+        let predicate = NSPredicate(format: "name = %@", travelName)
+        fetchRequest.predicate = predicate
+        self.finishTravelButton.enabled = true
+        self.travel = try! managedContext.executeFetchRequest(fetchRequest).first as? NSManagedObject
     }
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         
-        if let travelName = self.travelName {
-            if !self.isEnded {
-            
+        if let travel = self.travel {
+            if travel.valueForKey("finished") as! Bool {
+                
+                let locationEntity =  NSEntityDescription.entityForName("Location",inManagedObjectContext: managedContext)
                 let userLocation = newLocation
-                
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                let managedContext = appDelegate.managedObjectContext
-                
-                let location =  NSEntityDescription.entityForName("location", inManagedObjectContext:managedContext)
-                let fetchRequest = NSFetchRequest(entityName: "Travel")
-                let predicate = NSPredicate(format: "name = %@", travelName)
-                fetchRequest.predicate = predicate
-                let travel = try! managedContext.executeFetchRequest(fetchRequest)[0]
-                
+                let location = NSManagedObject(entity: locationEntity!, insertIntoManagedObjectContext:managedContext)
                 var latitude = userLocation.coordinate.latitude
                 var longitude = userLocation.coordinate.longitude
                 
@@ -74,34 +80,25 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                     try! encryptor.encrypt(dataLongitude).getBytes(&longitude, length: sizeof(CLLocationDegrees))
                 }
                 
-                location?.setValue(travel, forKey: "travel")
-                location?.setValue(latitude, forKey: "longitude")
-                location?.setValue(userLocation.coordinate.latitude, forKey: "latitude")
+                location.setValue(travel, forKey: "travel")
+                location.setValue(latitude, forKey: "longitude")
+                location.setValue(userLocation.coordinate.latitude, forKey: "latitude")
                 
-                let _ = NSManagedObject(entity: location!, insertIntoManagedObjectContext: managedContext)
                 try! managedContext.save()
                 
                 self.loadMap()
+
             }
         }
-    }
 
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func loadMap() {
-        if let travelName = self.travelName {
+        if let travel = self.travel {
             do {
-                let travelFetchRequest = NSFetchRequest(entityName: "Travel")
-                let travelPredicate = NSPredicate(format: "name = %@", travelName)
-                travelFetchRequest.predicate = travelPredicate
-                let travel = try managedContext.executeFetchRequest(travelFetchRequest)
                 
                 let fetchRequest = NSFetchRequest(entityName: "Location")
-                let locationPredicate = NSPredicate(format: "travel = %@", argumentArray: travel)
+                let locationPredicate = NSPredicate(format: "travel = %@", argumentArray: [travel])
                 fetchRequest.predicate = locationPredicate
                 
                 let locationsResult = try managedContext.executeFetchRequest(fetchRequest)
@@ -112,7 +109,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                     var latitude = location.valueForKey("latitude") as! CLLocationDegrees
                     var longitude = location.valueForKey("longitude") as! CLLocationDegrees
                     
-                    if self.isSecure {
+                    if travel.valueForKey("secure") as! Bool {
                         let dataLatitude = NSMutableData(capacity: 0)!
                         let dataLongitude = NSMutableData(capacity: 0)!
                         dataLatitude.appendBytes(&latitude, length: sizeof(CLLocationDegrees))
@@ -135,10 +132,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func mapReturns(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
         
-    }
-    
-    @IBAction func travelsReturns(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
-        
-    }
+    }   
+
 }
 
