@@ -29,6 +29,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.mapView.removeAnnotations(self.mapView.annotations)
         self.loadMap()
     }
     
@@ -60,7 +61,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         
         if let travel = self.travel {
-            if travel.valueForKey("finished") as! Bool {
+            if !(travel.valueForKey("finished") as! Bool) {
                 
                 let locationEntity =  NSEntityDescription.entityForName("Location",inManagedObjectContext: managedContext)
                 let userLocation = newLocation
@@ -81,9 +82,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 }
                 
                 location.setValue(travel, forKey: "travel")
-                location.setValue(latitude, forKey: "longitude")
-                location.setValue(userLocation.coordinate.latitude, forKey: "latitude")
+                location.setValue(latitude, forKey: "latitude")
+                location.setValue(longitude, forKey: "longitude")
                 
+                try! self.addLocationAnnotation(location)
                 try! managedContext.save()
                 
                 self.loadMap()
@@ -93,35 +95,35 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     }
     
+    func addLocationAnnotation(location:NSManagedObject) throws {
+        if let travel = self.travel {
+            let annotation = MKPointAnnotation()
+            var latitude = location.valueForKey("latitude") as! CLLocationDegrees
+            var longitude = location.valueForKey("longitude") as! CLLocationDegrees
+            
+            if travel.valueForKey("secure") as! Bool {
+                let dataLatitude = NSMutableData(capacity: 0)!
+                let dataLongitude = NSMutableData(capacity: 0)!
+                dataLatitude.appendBytes(&latitude, length: sizeof(CLLocationDegrees))
+                dataLongitude.appendBytes(&longitude, length: sizeof(CLLocationDegrees))
+                
+                let encryptor = AES128Encryptor()
+                let _ = try? encryptor.decrypt(dataLatitude).getBytes(&latitude, length: sizeof(CLLocationDegrees))
+                let _ = try? encryptor.decrypt(dataLongitude).getBytes(&longitude, length: sizeof(CLLocationDegrees))
+            }
+            
+            annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            self.mapView.addAnnotation(annotation)
+        }
+    }
+    
     func loadMap() {
         if let travel = self.travel {
             do {
+                let locations = travel.mutableSetValueForKey("locations")
                 
-                let fetchRequest = NSFetchRequest(entityName: "Location")
-                let locationPredicate = NSPredicate(format: "travel = %@", argumentArray: [travel])
-                fetchRequest.predicate = locationPredicate
-                
-                let locationsResult = try managedContext.executeFetchRequest(fetchRequest)
-                let locations = locationsResult as! [NSManagedObject]
                 for location in locations {
-                    
-                    let annotation = MKPointAnnotation()
-                    var latitude = location.valueForKey("latitude") as! CLLocationDegrees
-                    var longitude = location.valueForKey("longitude") as! CLLocationDegrees
-                    
-                    if travel.valueForKey("secure") as! Bool {
-                        let dataLatitude = NSMutableData(capacity: 0)!
-                        let dataLongitude = NSMutableData(capacity: 0)!
-                        dataLatitude.appendBytes(&latitude, length: sizeof(CLLocationDegrees))
-                        dataLongitude.appendBytes(&longitude, length: sizeof(CLLocationDegrees))
-                        
-                        let encryptor = AES128Encryptor()
-                        try encryptor.decrypt(dataLatitude).getBytes(&latitude, length: sizeof(CLLocationDegrees))
-                        try encryptor.decrypt(dataLongitude).getBytes(&longitude, length: sizeof(CLLocationDegrees))
-                    }
-                    
-                    annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                    self.mapView.addAnnotation(annotation)
+                    try self.addLocationAnnotation(location as! NSManagedObject)
                 }
             } catch let error as NSError {
                 print("Could not fetch locations \(error), \(error.userInfo)")
