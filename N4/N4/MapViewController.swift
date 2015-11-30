@@ -11,31 +11,42 @@ import MapKit
 import CoreData
 import CoreLocation
 
+/**
+ View Controller responsável pela tela de exibição do mapa.
+ */
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
-    var managedContext:NSManagedObjectContext!
-    var travel:NSManagedObject?
+    //Atributos
     
+    /** Contexto Core Data. */
+    var managedContext:NSManagedObjectContext!
+    /** Referência ao objeto de viagens. */
+    var travel:NSManagedObject?
+    /** Botão de finalizar viagem */
     @IBOutlet weak var finishTravelButton: UIButton!
+    /** Lazy load do locationManager */
     lazy var locationManager:CLLocationManager! = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         manager.delegate = self
         manager.requestAlwaysAuthorization()
         return manager
     }()
-    
+    /** MapView */
     @IBOutlet weak var mapView: MKMapView!
+    
+    //Overrides
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.mapView.removeAnnotations(self.mapView.annotations)
+        locationManager.startUpdatingLocation()
         self.loadMap()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.startUpdatingLocation()
+        self.finishTravelButton.enabled = false
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         self.managedContext = appDelegate.managedObjectContext
     }
@@ -44,79 +55,62 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         super.didReceiveMemoryWarning()
     }
     
+    //Métodos
+    
+    /**
+    Realiza a finalização de uma viagem.
+    - Parameter sender: Botão que dispara a ação
+    */
     @IBAction func finishTravel(sender: UIButton) {
         travel!.setValue(true, forKey: "finished")
         try! managedContext.save()
         sender.enabled = false
     }
     
+    /**
+    Carrega a viagem que possui o nome passado no atributo travel da classe.
+     - Parameter travelName: nome da viagem a ser carregada.
+    */
     func loadTravel(travelName:String) {
         let fetchRequest = NSFetchRequest(entityName: "Travel")
         let predicate = NSPredicate(format: "name = %@", travelName)
         fetchRequest.predicate = predicate
-        self.finishTravelButton.enabled = true
         self.travel = try! managedContext.executeFetchRequest(fetchRequest).first as? NSManagedObject
+        self.finishTravelButton.enabled = !(self.travel!.valueForKey("finished") as! Bool)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        
-        if let travel = self.travel {
-            if !(travel.valueForKey("finished") as! Bool) {
-                
-                let locationEntity =  NSEntityDescription.entityForName("Location",inManagedObjectContext: managedContext)
-                let userLocation = newLocation
-                let location = NSManagedObject(entity: locationEntity!, insertIntoManagedObjectContext:managedContext)
-                var latitude = userLocation.coordinate.latitude
-                var longitude = userLocation.coordinate.longitude
-                
-                if travel.valueForKey("secure") as! Bool {
-                    
-                    let dataLatitude = NSMutableData(capacity: 0)!
-                    let dataLongitude = NSMutableData(capacity: 0)!
-                    dataLatitude.appendBytes(&latitude, length: sizeof(CLLocationDegrees))
-                    dataLongitude.appendBytes(&longitude, length: sizeof(CLLocationDegrees))
-                    
-                    let encryptor = AES128Encryptor()
-                    try! encryptor.encrypt(dataLatitude).getBytes(&latitude, length: sizeof(CLLocationDegrees))
-                    try! encryptor.encrypt(dataLongitude).getBytes(&longitude, length: sizeof(CLLocationDegrees))
-                }
-                
-                location.setValue(travel, forKey: "travel")
-                location.setValue(latitude, forKey: "latitude")
-                location.setValue(longitude, forKey: "longitude")
-                
-                try! self.addLocationAnnotation(location)
-                try! managedContext.save()
-                
-                self.loadMap()
-
-            }
-        }
-
-    }
-    
+    /**
+     Adiciona a localização passada ao mapa.
+     - Parameter location: Localização a ser adicionada.
+     - Throws
+     */
     func addLocationAnnotation(location:NSManagedObject) throws {
         if let travel = self.travel {
             let annotation = MKPointAnnotation()
-            var latitude = location.valueForKey("latitude") as! CLLocationDegrees
-            var longitude = location.valueForKey("longitude") as! CLLocationDegrees
+            var dataLatitude:NSData = location.valueForKey("latitude") as! NSData
+            var dataLongitude:NSData = location.valueForKey("longitude") as! NSData
             
             if travel.valueForKey("secure") as! Bool {
-                let dataLatitude = NSMutableData(capacity: 0)!
-                let dataLongitude = NSMutableData(capacity: 0)!
-                dataLatitude.appendBytes(&latitude, length: sizeof(CLLocationDegrees))
-                dataLongitude.appendBytes(&longitude, length: sizeof(CLLocationDegrees))
                 
                 let encryptor = AES128Encryptor()
-                let _ = try? encryptor.decrypt(dataLatitude).getBytes(&latitude, length: sizeof(CLLocationDegrees))
-                let _ = try? encryptor.decrypt(dataLongitude).getBytes(&longitude, length: sizeof(CLLocationDegrees))
+                dataLatitude = try! encryptor.decrypt(dataLatitude)
+                dataLongitude = try! encryptor.decrypt(dataLongitude)
             }
+            
+            var latitude:Double = 0.0
+            var longitude:Double = 0.0
+            
+            dataLatitude.getBytes(&latitude, length: sizeof(Double))
+            dataLongitude.getBytes(&longitude, length: sizeof(Double))
             
             annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             self.mapView.addAnnotation(annotation)
         }
     }
     
+    /**
+    Carrega o mapa com todas as localizações da viagem ativa.
+     */
     func loadMap() {
         if let travel = self.travel {
             do {
@@ -132,9 +126,54 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
 
     }
     
-    @IBAction func mapReturns(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+    //Implementação do protocolo CLLocationManagerDelegate
+
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         
-    }   
+        if let travel = self.travel {
+            if !(travel.valueForKey("finished") as! Bool) {
+                
+                let locationEntity =  NSEntityDescription.entityForName("Location",inManagedObjectContext: managedContext)
+                let userLocation = newLocation
+                let location = NSManagedObject(entity: locationEntity!, insertIntoManagedObjectContext:managedContext)
+                var latitude:Double = userLocation.coordinate.latitude
+                var longitude:Double = userLocation.coordinate.longitude
+                
+                var dataLatitude = NSMutableData(capacity: 0)!
+                var dataLongitude = NSMutableData(capacity: 0)!
+                
+                dataLatitude.appendBytes(&latitude, length: sizeof(Double))
+                dataLongitude.appendBytes(&longitude, length: sizeof(Double))
+                
+                if travel.valueForKey("secure") as! Bool {
+                    
+                    let encryptor = AES128Encryptor()
+                    dataLatitude  = NSMutableData(data:try! encryptor.encrypt(dataLatitude))
+                    dataLongitude = NSMutableData(data:try! encryptor.encrypt(dataLongitude))
+                }
+                
+                location.setValue(travel, forKey: "travel")
+                location.setValue(dataLatitude, forKey: "latitude")
+                location.setValue(dataLongitude, forKey: "longitude")
+                
+                try! self.addLocationAnnotation(location)
+                try! managedContext.save()
+                
+                self.loadMap()
+                
+            }
+        }
+        
+    }
+    
+    //Navigation.
+    
+    @IBAction func newTravelReturns(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+        //Nothing
+    }
+    @IBAction func travelReturns(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+        //Nothing
+    }
 
 }
 

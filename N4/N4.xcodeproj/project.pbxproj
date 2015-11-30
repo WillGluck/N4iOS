@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		E05343421C03A74000A63801 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E05343411C03A74000A63801 /* CoreLocation.framework */; };
-		E0AFDDE11C0259DD00F75EBA /* Cripto.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AFDDE01C0259DD00F75EBA /* Cripto.swift */; settings = {ASSET_TAGS = (); }; };
+		E0AFDDE11C0259DD00F75EBA /* Cripto.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AFDDE01C0259DD00F75EBA /* Cripto.swift */; };
 		E0AFDDE81C0268B700F75EBA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0AFDDE71C0268B700F75EBA /* CoreData.framework */; };
-		E0C17C2F1BFD07AC00FBB837 /* NewTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		E0C17C311BFD07DB00FBB837 /* TravelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C301BFD07DB00FBB837 /* TravelsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		E0C17C331BFD09AF00FBB837 /* TravelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C321BFD09AF00FBB837 /* TravelTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		E0C17C2F1BFD07AC00FBB837 /* NewTravelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */; };
+		E0C17C311BFD07DB00FBB837 /* TravelsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C301BFD07DB00FBB837 /* TravelsTableViewController.swift */; };
+		E0C17C331BFD09AF00FBB837 /* TravelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C17C321BFD09AF00FBB837 /* TravelTableViewCell.swift */; };
 		E0E83B121BF103E1009B40FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E83B111BF103E1009B40FB /* AppDelegate.swift */; };
 		E0E83B141BF103E1009B40FB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0E83B131BF103E1009B40FB /* MapViewController.swift */; };
 		E0E83B171BF103E1009B40FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0E83B151BF103E1009B40FB /* Main.storyboard */; };
@@ -94,9 +94,9 @@
 		E05343431C03B01000A63801 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */,
 				E0E83B111BF103E1009B40FB /* AppDelegate.swift */,
 				E0E83B131BF103E1009B40FB /* MapViewController.swift */,
+				E0C17C2E1BFD07AC00FBB837 /* NewTravelViewController.swift */,
 				E0C17C301BFD07DB00FBB837 /* TravelsTableViewController.swift */,
 				E0C17C321BFD09AF00FBB837 /* TravelTableViewCell.swift */,
 			);

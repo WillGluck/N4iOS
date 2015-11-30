@@ -9,39 +9,53 @@
 import UIKit
 import CoreData
 
+/**
+ View Controller responsável pela tela de criação de novas viagens.
+ */
 class NewTravelViewController: UIViewController {
 
-    @IBOutlet weak var travelName: UITextField!    
+    /** Input text do nome da viagem. */
+    @IBOutlet weak var travelName: UITextField!
+    /** Switch indicando se a viagem é segura ou não. */
     @IBOutlet weak var secure: UISwitch!
+    
+    //Controller
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
+    //Navigation.
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "mapUnwindSegue" {
             if let travelName = self.travelName.text {
                 self.createTravel(travelName)
                 self.prepareMapView(segue.destinationViewController as! MapViewController)
-                //self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
     }
     
+    //Métodos
+    
+    /**
+    Prepara o MapViewController com a viagem selecionada.
+    - Parameter mapViewController: Referência ao viewController a ser configurado.
+    */
     func prepareMapView(mapViewController:MapViewController) {
         if let travelName = self.travelName.text {
             mapViewController.loadTravel(travelName)
         }
     }
     
+    /**
+     Cria uma viagem com o nome passado.
+     - Parameter travelName: Nome da viagem a ser criada.
+     */
     func createTravel(travelName:String) {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext

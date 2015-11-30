@@ -8,19 +8,22 @@
 
 import UIKit
 
+/**
+Implementação própria da célula da tabela de viagens.
+*/
 class TravelTableViewCell: UITableViewCell {
 
+    /** Label que guarda o nome da viagem e informações adicionais que forem necessárias. */
     @IBOutlet weak var travelName: UILabel!
+    
+    //ViewCell
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
 }
