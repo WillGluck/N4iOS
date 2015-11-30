@@ -48,6 +48,7 @@ class AES128Encryptor {
         let iv = try self.randomDataOfLength(algorithmIVSize)
         
         NSUserDefaults.standardUserDefaults().setValue(iv, forKey:IV_KEY)
+        //NUNCA FAÇA ISSO NA VIDA REAL.
         NSUserDefaults.standardUserDefaults().setValue(self.AESKeyFromPassword(password, salt: salt), forKey:KEY_KEY)
         
     }
@@ -79,6 +80,7 @@ class AES128Encryptor {
         let newKeyPointer = UnsafeMutablePointer<UInt8>(newKey.mutableBytes)
         let saltPointer = UnsafePointer<UInt8>(salt.bytes)
         let passwordString = String(data:password, encoding:NSUTF8StringEncoding)!
+        //Cria a chave AES128
         CCKeyDerivationPBKDF(algorithm, passwordString, passwordString.characters.count, saltPointer, salt.length, prfAlgorithm, rounds, newKeyPointer, newKey.length)
         return newKey
     }
