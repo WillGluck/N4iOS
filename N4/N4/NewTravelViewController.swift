@@ -1,11 +1,3 @@
-//
-//  NewTravelViewController.swift
-//  N4
-//
-//  Created by Teclógica Serviços em Informática LTDA on 18/11/15.
-//  Copyright © 2015 FURB. All rights reserved.
-//
-
 import UIKit
 import CoreData
 

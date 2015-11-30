@@ -1,11 +1,3 @@
-//
-//  Cripto.swift
-//  N4
-//
-//  Created by Teclógica Serviços em Informática LTDA on 22/11/15.
-//  Copyright © 2015 FURB. All rights reserved.
-//
-
 import Foundation
 
 /**
@@ -95,7 +87,6 @@ class AES128Encryptor {
     Criptografa os dados passados.
     - Parameter data
     - Returns: Dados criptogradados.
-    - Throws Error
     */
     func encrypt(data:NSData) throws -> NSData {
         
@@ -115,6 +106,11 @@ class AES128Encryptor {
         return resultBuffer
     }
     
+    /**
+     Criptografa os dados passados.
+     - Parameter data
+     - Returns: Dados criptogradados.
+     */
     func decrypt(data:NSData) throws -> NSData {
         
         let resultBuffer = NSMutableData(length: Int(data.length))!
